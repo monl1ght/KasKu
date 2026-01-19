@@ -310,7 +310,7 @@ class DashboardController extends Controller
             })
             ->toArray();
 
-        return view('Dashboard', [
+        return view('dashboard', [
             'activeOrganization'        => $activeOrganization,
             'activeRole'                => $activeRole,
 
