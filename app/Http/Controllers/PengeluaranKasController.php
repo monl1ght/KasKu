@@ -15,7 +15,7 @@ class PengeluaranKasController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware('auth');
     }
 
     /**
@@ -263,14 +263,17 @@ class PengeluaranKasController extends Controller
         $path = preg_replace('#^public/#', '', $path);
         $path = preg_replace('#^storage/#', '', $path);
 
-        abort_if(! Storage::disk('public')->exists($path), 404);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk('public');
 
-        $fullPath = Storage::disk('public')->path($path);
-        $mime = Storage::disk('public')->mimeType($path) ?? 'application/octet-stream';
+        abort_if(! $disk->exists($path), 404);
+
+        $fullPath = $disk->path($path);
+        $mime     = $disk->mimeType($path) ?: 'application/octet-stream';
         $fileName = basename($path);
 
         return response()->file($fullPath, [
-            'Content-Type' => $mime,
+            'Content-Type'        => $mime,
             'Content-Disposition' => 'inline; filename="' . $fileName . '"',
         ]);
     }

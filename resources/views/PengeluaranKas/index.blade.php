@@ -10,9 +10,23 @@
                 display: none !important;
             }
 
-            ::-webkit-scrollbar {
-                width: 0px;
-                background: transparent;
+            /*
+                     |------------------------------------------------------------------
+                     | IMPORTANT
+                     |------------------------------------------------------------------
+                     | Jangan menyembunyikan scrollbar secara GLOBAL di halaman.
+                     | Ini bikin layout "mental" (shift) saat pindah halaman karena
+                     | lebar viewport berubah ketika scrollbar browser hilang.
+                     |
+                     | Solusi: sembunyikan scrollbar hanya pada container overflow
+                     | tertentu (mis. wrapper tabel) dengan class .no-scrollbar.
+                     */
+
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                /* IE/Edge legacy */
+                scrollbar-width: none;
+                /* Firefox */
             }
 
             /* Icon kalender input date jadi putih */
@@ -92,6 +106,7 @@
     }" @keydown.escape.window="closeDetail()">
 
 
+
         {{-- SUMMARY CARDS --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {{-- Saldo Kas --}}
@@ -145,6 +160,7 @@
                 </p>
             </div>
         </div>
+
 
 
         {{-- TOOLBAR (Search + Filter + Tambah) --}}
@@ -332,11 +348,12 @@
         </div>
 
 
+
         {{-- TABLE (Desktop) --}}
         <div
             class="hidden md:block rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg overflow-hidden">
 
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto no-scrollbar">
                 <table class="min-w-full text-left">
                     <thead class="bg-white/5 border-b border-white/10">
                         <tr class="text-xs font-semibold text-white/70">
@@ -602,6 +619,7 @@
         </div>
 
 
+
         {{-- MOBILE CARDS --}}
         <div class="md:hidden space-y-4">
             @forelse ($pengeluaran as $row)
@@ -662,6 +680,7 @@
                 </div>
             @endforelse
         </div>
+
 
 
         {{-- MODAL DETAIL --}}
