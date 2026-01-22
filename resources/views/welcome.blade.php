@@ -17,78 +17,65 @@
 
   <style>
     :root {
-      /* Navbar height + iOS safe area */
-      --nav-core: 80px;
-      --safe-top: env(safe-area-inset-top);
-      --safe-bottom: env(safe-area-inset-bottom);
-      --nav-h: calc(var(--nav-core) + var(--safe-top));
+      --nav-h: 80px;
     }
 
     @media (max-width: 640px) {
-      :root { --nav-core: 64px; }
-    }
-
-    html {
-      /* Supaya anchor (#features) tidak ketutup navbar fixed */
-      scroll-padding-top: calc(var(--nav-h) + 12px);
+      :root {
+        --nav-h: 64px;
+      }
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      /* Lebih stabil di mobile browser (toolbar) daripada 100vh */
-      min-height: 100svh;
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-18px); }
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-18px);
+      }
     }
 
     @keyframes pulse-slow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.55; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.55;
+      }
     }
 
-    .animate-float { animation: float 6s ease-in-out infinite; }
-    .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
 
-    /* =========
-      NAV XS FIX
-      - layar sangat kecil: izinkan wrap + kecilkan padding agar tidak overflow
-    ========= */
-    @media (max-width: 380px) {
-      .nav-actions { gap: .4rem !important; }
-      .nav-actions .nav-link { padding: .45rem .6rem !important; font-size: .82rem !important; }
-      .nav-actions .btn-primary { padding: .55rem .75rem !important; font-size: .82rem !important; border-radius: .85rem !important; }
+    .animate-pulse-slow {
+      animation: pulse-slow 3s ease-in-out infinite;
     }
 
     /* =========================
-       HERO RESPONSIVE FIX (upgrade)
-       - Nav fixed offset + safe-area
-       - Fluid title
-       - Height pendek: rapikan spacing
+       HERO RESPONSIVE FIX
+       - Default: tidak dipaksa center
+       - Layar tinggi: center biar "wah"
+       - Layar pendek: rapikan spacing + kecilkan judul + hide arrow
     ========================== */
     .hero {
       padding-top: calc(var(--nav-h) + 2.25rem);
-      padding-bottom: calc(3.5rem + var(--safe-bottom));
-    }
-
-    /* Fluid typography untuk judul (lebih konsisten lintas ukuran) */
-    .hero-title {
-      font-size: clamp(2.15rem, 5.2vw, 4.15rem);
-      line-height: 1.12;
-      text-wrap: balance;
-    }
-
-    @media (min-width: 1280px) {
-      .hero-title {
-        font-size: clamp(3.15rem, 3.8vw, 4.9rem);
-      }
+      padding-bottom: 3.5rem;
     }
 
     @media (min-height: 900px) {
       .hero {
-        min-height: 100svh;
+        min-height: 100vh;
         display: flex;
         align-items: center;
       }
@@ -97,18 +84,38 @@
     @media (max-height: 820px) {
       .hero {
         padding-top: calc(var(--nav-h) + 1.25rem);
-        padding-bottom: calc(1.75rem + var(--safe-bottom));
+        padding-bottom: 1.5rem;
       }
 
-      .hero-grid { gap: 2.25rem !important; }
-      .hero-cards { gap: 1rem !important; }
-      .hero-card { padding: 1.1rem !important; }
-      .hero-arrow { display: none !important; }
+      .hero-grid {
+        gap: 2.25rem !important;
+      }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 4vw, 3.6rem) !important;
+      }
+
+      .hero-cards {
+        gap: 1rem !important;
+      }
+
+      .hero-card {
+        padding: 1.1rem !important;
+      }
+
+      .hero-arrow {
+        display: none !important;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .animate-float { animation: none !important; }
-      .animate-pulse-slow { animation: none !important; }
+      .animate-float {
+        animation: none !important;
+      }
+
+      .animate-pulse-slow {
+        animation: none !important;
+      }
     }
   </style>
 </head>
@@ -116,10 +123,10 @@
 <body class="min-h-screen bg-slate-900 antialiased overflow-x-hidden">
 
   <!-- NAV -->
-  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-900/50 backdrop-blur-xl pt-[env(safe-area-inset-top)]">
+  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-900/50 backdrop-blur-xl">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 sm:h-20">
-        <a href="#" class="flex items-center gap-3 group shrink-0">
+        <a href="#" class="flex items-center gap-3 group">
           <div
             class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg transition-transform group-hover:scale-110">
             <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,13 +137,12 @@
           <span class="text-lg sm:text-xl font-bold text-white">KasKu</span>
         </a>
 
-        <div class="nav-actions flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
-          <a href="/login"
-            class="nav-link px-3 sm:px-5 py-2 text-sm font-medium text-white/90 hover:text-blue-300 transition-colors whitespace-nowrap">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="/login" class="px-3 sm:px-5 py-2 text-sm font-medium text-white/90 hover:text-blue-300 transition-colors">
             Masuk
           </a>
           <a href="/register"
-            class="btn-primary px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl hover:shadow-lg hover:shadow-blue-500/40 transition-all hover:scale-[1.02] whitespace-nowrap">
+            class="px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl hover:shadow-lg hover:shadow-blue-500/40 transition-all hover:scale-[1.02]">
             Daftar Gratis
           </a>
         </div>
@@ -163,7 +169,7 @@
 
       <!-- LEFT -->
       <div class="text-center lg:text-left space-y-7 sm:space-y-8">
-        <h1 class="hero-title font-bold text-white">
+        <h1 class="hero-title text-4xl sm:text-5xl xl:text-6xl font-bold text-white leading-[1.12]">
           Platform Manajemen
           <span class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Keuangan & Kas
@@ -171,7 +177,7 @@
           Multi-Organisasi
         </h1>
 
-        <p class="text-base sm:text-lg text-white/70 leading-relaxed max-w-[62ch] mx-auto lg:mx-0">
+        <p class="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto lg:mx-0">
           Sistem berbasis web dengan arsitektur Multi-Tenancy untuk mendigitalisasi pengelolaan dana iuran
           organisasi, komunitas, dan kelas akademik dengan transparansi penuh dan isolasi data yang aman.
         </p>
@@ -265,7 +271,7 @@
 
     <!-- MOBILE/TABLET preview cards -->
     <div class="lg:hidden mt-10 max-w-2xl mx-auto grid sm:grid-cols-2 gap-4 hero-cards">
-      <div class="bg-white/10 backdrop-blur-xl border border-white/15 rounded-2xl p-5 hero-card">
+      <div class="bg-white/8 backdrop-blur-xl border border-white/15 rounded-2xl p-5 hero-card">
         <div class="flex items-start gap-3">
           <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +288,7 @@
         </div>
       </div>
 
-      <div class="bg-white/10 backdrop-blur-xl border border-white/15 rounded-2xl p-5 hero-card">
+      <div class="bg-white/8 backdrop-blur-xl border border-white/15 rounded-2xl p-5 hero-card">
         <div class="flex items-start gap-3">
           <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,7 +305,7 @@
         </div>
       </div>
 
-      <div class="bg-white/10 backdrop-blur-xl border border-white/15 rounded-2xl p-5 sm:col-span-2 hero-card">
+      <div class="bg-white/8 backdrop-blur-xl border border-white/15 rounded-2xl p-5 sm:col-span-2 hero-card">
         <div class="flex items-start gap-3">
           <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -317,7 +323,7 @@
       </div>
     </div>
 
-    <!-- Arrow -->
+    <!-- Arrow (auto-hide on short height via .hero-arrow) -->
     <div class="hero-arrow hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
       <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -341,7 +347,6 @@
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        <!-- cards (tetap sama seperti punya Anda) -->
         <div
           class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
           <div
@@ -357,10 +362,84 @@
           </p>
         </div>
 
-        <!-- ...lanjutkan card Anda seperti semula -->
+        <div
+          class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2.5 sm:mb-3">Two-Step Verification</h3>
+          <p class="text-white/70 leading-relaxed">
+            Verifikasi bertingkat dengan status pending hingga bendahara approve untuk menjaga integritas dan validitas data
+          </p>
+        </div>
+
+        <div
+          class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2.5 sm:mb-3">Unique Join Code</h3>
+          <p class="text-white/70 leading-relaxed">
+            Kode akses unik untuk manajemen keanggotaan mandiri yang aman tanpa input data manual berulang
+          </p>
+        </div>
+
+        <div
+          class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2.5 sm:mb-3">Kalkulasi Tunggakan Otomatis</h3>
+          <p class="text-white/70 leading-relaxed">
+            Algoritma otomatis untuk menghitung defisit pembayaran anggota dengan laporan yang akurat dan terperinci
+          </p>
+        </div>
+
+        <div
+          class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2.5 sm:mb-3">Flexible Billing System</h3>
+          <p class="text-white/70 leading-relaxed">
+            Tagihan seragam atau variatif per anggota dengan fitur override untuk pengurus melalui tabel pivot
+          </p>
+        </div>
+
+        <div
+          class="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-7 sm:p-8 hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1 transform-gpu">
+          <div
+            class="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2.5 sm:mb-3">Comprehensive Reporting</h3>
+          <p class="text-white/70 leading-relaxed">
+            Laporan keuangan lengkap dengan riwayat transaksi, status verifikasi, dan rekapitulasi untuk audit & akuntabilitas
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
 </body>
+
 </html>
